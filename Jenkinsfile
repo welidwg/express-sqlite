@@ -30,6 +30,13 @@ steps {
 sh 'docker push $DOCKERHUB_CREDENTIALS_USR/express-sqlite-app:$BUILD_ID'
 }
 }
+stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f express-sqlite-app/deployment.yaml'
+                sh 'kubectl apply -f express-sqlite-app/service.yaml'
+                
+            }
+        }
 stage('Cleanup'){
 steps {
 sh 'docker rmi $DOCKERHUB_CREDENTIALS_USR/express-sqlite-app:$BUILD_ID'
